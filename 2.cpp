@@ -79,7 +79,6 @@ void ivedimas(duomenys info[], int sk )
             for(int j=0;j<info[i].n;j++)
             {
                 info[i].v.push_back(uniform_dist(e1) );
-                //cout << " []]]]]]]]]]]]" << info[i].v[j] << endl;
             }
 
         }
@@ -99,7 +98,6 @@ void galutinisv(duomenys info[], int sk)
             vid+=info[i].v[j];
 
         }
-        cout << "asf " << vid/ska << endl;
         info[i].gal=0.4*(vid/ska) + 0.6*info[i].egz;
     }
 }
