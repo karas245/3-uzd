@@ -72,9 +72,16 @@ void ivedimas(duomenys info[], int sk )
         }
         else
         {
+            std::random_device r;
+            std::default_random_engine e1(r());
+            std::uniform_int_distribution<int> uniform_dist(1, 10);
             cout << "Iveskite pazymiu skaiciu ";cin >> info[i].n;
             for(int j=0;j<info[i].n;j++)
-                info[i].v.push_back(rand()%10+1 );
+            {
+                info[i].v.push_back(uniform_dist(e1) );
+                //cout << " []]]]]]]]]]]]" << info[i].v[j] << endl;
+            }
+
         }
         cout << "Iveskite egzamino rezultata ";cin >> info[i].egz;cout << endl;
     }
@@ -86,12 +93,14 @@ void galutinisv(duomenys info[], int sk)
 
     for(int i=0;i<sk;i++)
     {
+        int ska=info[i].v.size();
         for(int j=0;j<info[i].v.size();j++)
         {
             vid+=info[i].v[j];
 
         }
-        info[i].gal=0.4*(vid/sk) + 0.6*info[i].egz;
+        cout << "asf " << vid/ska << endl;
+        info[i].gal=0.4*(vid/ska) + 0.6*info[i].egz;
     }
 }
 void galutinism(duomenys info[], int sk)
