@@ -27,7 +27,7 @@ struct duomenys{
     int egz;
     double gal;
 };
- //vector<duomenys> info;
+ 
 void skaitymas(vector<duomenys> &info)
 {
     ifstream fd("kursiokai.txt");
@@ -36,7 +36,7 @@ void skaitymas(vector<duomenys> &info)
     std::getline(fd, line);
     while (std::getline(fd, line)) {
         std::istringstream reading(line);
-        info.push_back(duomenys()); //emplace_back
+        info.push_back(duomenys()); 
         reading >> info[ind].var;
         reading >> info[ind].pav;
         while (reading) {
