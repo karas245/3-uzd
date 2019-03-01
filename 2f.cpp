@@ -6,11 +6,11 @@
 #include <locale>
 #include <math.h>
 #include <sstream>
-#include "2f.cpp"
+#include "2f.h"
 
 using std::cout;
 using std::endl;
-using std::cin;/*
+using std::cin;
 using std::string;
 using std::vector;
 using std::setw;
@@ -18,24 +18,20 @@ using std::setprecision;
 using std::left;
 using std::fixed;
 using std::ifstream;
-using std::ofstream;*/
+using std::ofstream;
 
-/*
-struct duomenys{
-    string var;
-    string pav;
-    int n;
-    vector<int> v;
-    int egz;
-    double gal;
-};
-*/
-
- //vector<duomenys> info;
- /*
 void skaitymas(vector<duomenys> &info)
 {
     ifstream fd("kursiokai.txt");
+    try{
+        if(!fd)
+            throw 0;
+        }
+        catch (int x)
+        {
+            cout << "File failed to open" << endl;
+            std::abort();
+        }
     string line;
     int ind = 0, grade;
     std::getline(fd, line);
@@ -50,6 +46,7 @@ void skaitymas(vector<duomenys> &info)
         }
         info[ind].egz = info[ind].v.back();
         info[ind].v.pop_back();
+
 
         ind++;
     }//cout << info.size() << endl;
@@ -133,6 +130,7 @@ void galutinism(vector<duomenys> &info, int sk)
     for(int i=0;i<sk;i++)
     {
         int ska=info[i].v.size();
+        sort(info[i].v.begin(), info[i].v.end());
         if(ska%2==0)
         {
             med=info[i].v[ska/2];
@@ -190,52 +188,5 @@ void spausm(vector<duomenys> &info, int sk)
     }
 
 }
-*/
-int main()
-{
-    int sk;
-    int t;
-    vector<duomenys> info;
-    cout << "Ar norite duomenis skaityti is failo? (1 jei taip, 0 jei ne) ";cin >> t;
-    if(t==1)
-    {
-        skaitymas(info);
-        sk=info.size();
-
-    }
-
-    else {
-        cout << "Iveskite studentu skaiciu " ;
-        cin >> sk;
-        cout << endl;
-        info[sk];
-        ivedimas(info,sk);
-    }
-    int x;
-    cout << "Galutinio balo skaiciavimui naudoti vidurki(1) ar mediana(2)? ";cin >> x;
-    if(x==1)
-    {
-        galutinisv(info,sk);
-        spausv(info,sk);
-    }
-    else
-    {
-        galutinism(info,sk);
-        spausm(info,sk);
-    }
-    //std::vector<int> v={1,2,3,4,5,6};
-    //int a=v.capacity();
-    //cout << a << endl;
-
-    /*
-    v.push_back(25);
-    v.push_back(13);
-
-     for(int n : v) {
-        cout << n << '\n';
-    }*/
 
 
-
-  return 0;
-}
