@@ -5,7 +5,8 @@
 #include <algorithm>
 #include <locale>
 #include <math.h>
-#include <sstream>
+//#include <sstream>
+//#include <chrono>
 #include "2f.cpp"
 
 using std::cout;
@@ -193,36 +194,48 @@ void spausm(vector<duomenys> &info, int sk)
 */
 int main()
 {
-    int sk;
-    int t;
+    //auto start = std::chrono::system_clock::now();
+    int ii;
+    cout << "Ar norite vykdyti programa(1) ar atlikti greicio spartos analize(2)? "; cin >> ii;
     vector<duomenys> info;
-    cout << "Ar norite duomenis skaityti is failo? (1 jei taip, 0 jei ne) ";cin >> t;
-    if(t==1)
+    int sk;
+    if(ii==1)
     {
-        skaitymas(info);
-        sk=info.size();
 
-    }
+        int t;
 
-    else {
-        cout << "Iveskite studentu skaiciu " ;
-        cin >> sk;
-        cout << endl;
-        info[sk];
-        ivedimas(info,sk);
+        cout << "Ar norite duomenis skaityti is failo? (1 jei taip, 0 jei ne) ";cin >> t;
+        if(t==1)
+        {
+            skaitymas(info);
+            sk=info.size();
+
+        }
+
+        else {
+            cout << "Iveskite studentu skaiciu " ;
+            cin >> sk;
+            cout << endl;
+            info[sk];
+            ivedimas(info,sk);
+        }
+        int x;
+        cout << "Galutinio balo skaiciavimui naudoti vidurki(1) ar mediana(2)? ";cin >> x;
+        if(x==1)
+        {
+            galutinisv(info,sk);
+            spausv(info,sk);
+        }
+        else
+        {
+            galutinism(info,sk);
+            spausm(info,sk);
+        }
+        //auto end = std::chrono::system_clock::now();
+         //std::chrono::duration<double> elapsed_seconds = end-start;
+        //cout << "Programa uztruko " << elapsed_seconds.count() << " sekundziu\n";
     }
-    int x;
-    cout << "Galutinio balo skaiciavimui naudoti vidurki(1) ar mediana(2)? ";cin >> x;
-    if(x==1)
-    {
-        galutinisv(info,sk);
-        spausv(info,sk);
-    }
-    else
-    {
-        galutinism(info,sk);
-        spausm(info,sk);
-    }
+    else test(info,sk);
     //std::vector<int> v={1,2,3,4,5,6};
     //int a=v.capacity();
     //cout << a << endl;
