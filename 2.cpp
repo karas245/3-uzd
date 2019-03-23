@@ -1,14 +1,6 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <iomanip>
-#include <algorithm>
-#include <locale>
-#include <math.h>
-//#include <sstream>
-//#include <chrono>
-#include "2f.cpp"
 
+#include "2f.cpp"
+/*
 using std::cout;
 using std::endl;
 using std::cin;/*
@@ -235,7 +227,17 @@ int main()
          //std::chrono::duration<double> elapsed_seconds = end-start;
         //cout << "Programa uztruko " << elapsed_seconds.count() << " sekundziu\n";
     }
-    else test(info,sk);
+    else
+    {
+        cout << "Naudojant vektorius" << endl;
+        test(info,sk);
+        cout << "Naudojant deque" << endl;
+        deque<duomenys> info;
+        test(info,sk);
+        cout << "Naudojant list" << endl;
+        list<duomenys> info1;
+        test1(info1);
+    }
     //std::vector<int> v={1,2,3,4,5,6};
     //int a=v.capacity();
     //cout << a << endl;
