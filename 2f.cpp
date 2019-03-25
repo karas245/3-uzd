@@ -192,6 +192,7 @@ void galutinisv(vector<duomenys> &info, int sk)
         for(int j=0;j<ska;j++)
         {
             vid+=info[i].v[j];
+            info[i].v.clear();
 
         }
         info[i].gal=0.4*(vid/ska) + 0.6*info[i].egz;
@@ -209,6 +210,7 @@ void galutinisv(deque<duomenys> &info, int sk)
         for(int j=0;j<ska;j++)
         {
             vid+=info[i].v[j];
+            info[i].v.clear();
 
         }
         info[i].gal=0.4*(vid/ska) + 0.6*info[i].egz;
@@ -226,6 +228,7 @@ void galutinism(vector<duomenys> &info, int sk)
         if(ska%2==0)
         {
             med=info[i].v[ska/2];
+            info[i].v.clear();
         }
         else med=(info[i].v[ska/2]+info[i].v[ska/2+1])/2;
 
@@ -540,26 +543,26 @@ void test(deque<duomenys> &info, int sk)
     }
 
 }
-template < typename container >
+//template < typename container >
 
-double galutinis(container stud)
+double galutinis(duomenys student)
 {
-    int sk=stud.v.size();
+    int sk=student.v.size();
     double vid=0;
     double gal=0;
     for(int i=0;i<sk;i++)
     {
-        vid+=stud.v[i];
+        vid+=student.v[i];
 
     }
-    gal=0.4*(vid/sk) + 0.6*stud.egz;
+    gal=0.4*(vid/sk) + 0.6*student.egz;
     return gal;
 }
 
-void test1(list<duomenys> &info1)
+void test1(list<duomenys> &info1, duomenys student)
 {
     //auto start = std::chrono::system_clock::now();
-    generavimas();
+//    generavimas();
     //auto end = std::chrono::system_clock::now();
     //std::chrono::duration<double> elapsed_seconds_g = end-start;
 
@@ -567,7 +570,7 @@ void test1(list<duomenys> &info1)
     //cout << "Galutinio balo skaiciavimui naudojamas vidurkis " << endl;//cin >> x;
 
     string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    duomenys student;
+    //duomenys student;
     for(int i=0;i<5;i++)
     {
         auto start = std::chrono::system_clock::now();
@@ -586,7 +589,7 @@ void test1(list<duomenys> &info1)
     std::getline(fd, line);
     while (std::getline(fd, line)) {
         std::istringstream reading(line);
-        info1.push_back(duomenys());
+        //info1.push_back(duomenys());
         reading >> student.var;
         reading >> student.pav;
         while (reading) {
@@ -596,9 +599,11 @@ void test1(list<duomenys> &info1)
         student.egz = student.v.back();
         student.v.pop_back();
         student.gal=galutinis(student);
+        student.v.clear();
         info1.push_back(student);
         ind++;
     }
+
 //    sk=student.size();
 
    //if(x==1)

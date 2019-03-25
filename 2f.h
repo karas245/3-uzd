@@ -51,5 +51,5 @@ void spausv(list<duomenys> &info1, int sk);
 void test(vector<duomenys> &info, int sk);
 void test(deque<duomenys> &info, int sk);
 double galutinis(duomenys student);
-void test1(list<duomenys> &info1);
+void test1(list<duomenys> &info1, duomenys student);
 //#endif // 2F_H_INCLUDED

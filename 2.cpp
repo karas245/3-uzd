@@ -229,14 +229,16 @@ int main()
     }
     else
     {
+        generavimas();
         cout << "Naudojant vektorius" << endl;
         test(info,sk);
         cout << "Naudojant deque" << endl;
         deque<duomenys> info;
         test(info,sk);
+        duomenys student;
         cout << "Naudojant list" << endl;
         list<duomenys> info1;
-        test1(info1);
+        test1(info1,student);
     }
     //std::vector<int> v={1,2,3,4,5,6};
     //int a=v.capacity();
