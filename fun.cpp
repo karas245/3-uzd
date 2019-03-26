@@ -1,12 +1,4 @@
-/*#include <iostream>
-#include <fstream>
-#include <string>
-#include <iomanip>
-#include <algorithm>
-#include <locale>
-#include <math.h>
-#include <sstream>
-#include <chrono>*/
+
 #include "fun.h"
 
 
