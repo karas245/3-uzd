@@ -1,8 +1,85 @@
-
 #include "fun.h"
 
+Studentas::Studentas()
+{
+    var="Vardas";
+    pav="Pavarde";
+    v.push_back(0);
+    egz=0;
+    gal=0;
+    galv=0;
+    galm=0;
+}
 
 
+double Studentas::setGalV()
+{
+    int sk=v.size();
+    double vid=0;
+    for(auto pa:v)
+    {
+        vid+=pa;
+
+    }
+    galv=0.4*(vid/sk) + 0.6*egz;
+    v.clear();
+
+}
+double Studentas::setGalM()
+{
+    double med;
+
+    int ska=v.size();
+    sort(v.begin(), v.end());
+    if(ska%2==0)
+    {
+        med=v[ska/2];
+        //v.clear();
+    }
+    else med=(v[ska/2]+v[ska/2+1])/2;
+
+    galm=0.4*med + 0.6*egz;
+    v.clear();
+
+}
+double Studentas::setGal()
+{
+    if(galv>0) gal=galv;
+    else gal=galm;
+}
+double Studentas::setGalutinis(int galutinis)
+{
+    gal=galutinis;
+}
+string Studentas::setVar(string vardas)
+{
+    var=vardas;
+}
+string Studentas::setPav(string pavarde)
+{
+    pav=pavarde;
+}
+vector<int> Studentas::setV(vector<int> nd)
+{
+    for(auto i:nd)
+    {
+        v.push_back(i);
+    }
+    //v=nd;
+}
+int Studentas::setEgz(int e)
+{
+    egz=e;
+}
+bool namecheck(const Studentas & s1, const Studentas & s2)
+{
+    return (s1.getVar() < s2.getVar());
+}
+
+void sortByName(vector<Studentas> & studentai)
+{
+    sort(studentai.begin(), studentai.end(), namecheck);
+}
 void ifint(int ii)
 {
     while (!cin.good())
@@ -73,9 +150,9 @@ void generavimas()
    frr.close();
 
 }
-void skaitymas(vector<duomenys> &info)
+void skaitymas(vector<Studentas> &studentai)
 {
-    //ifstream fd("kursiokai.txt");
+
     generavimas();
     int x=0;
     string duom;
@@ -100,47 +177,69 @@ void skaitymas(vector<duomenys> &info)
             cout << "File failed to open" << endl;
             std::abort();
         }
+    Studentas stud;
     string line;
-    int ind = 0, grade;
+    int  grade;
+    string vardas, pavarde;
+    int e;
+    vector<int> nd;
     std::getline(fd, line);
+    int y;
+    cout << "Galutinio balo skaiciavimui naudoti vidurki(1) ar mediana(2)? ";cin >> y; ifint(y);
+    if(x==1)
     while (std::getline(fd, line)) {
         std::istringstream reading(line);
-        info.push_back(duomenys());
-        reading >> info[ind].var;
-        reading >> info[ind].pav;
+        reading >> vardas;
+        reading >> pavarde;
         while (reading) {
             reading >> grade;
-            info[ind].v.push_back(grade);
+            nd.push_back(grade);
         }
-        info[ind].egz = info[ind].v.back();
-        info[ind].v.pop_back();
+        e = nd.back();
+        nd.pop_back();
 
-
-        ind++;
-    }//cout << info.size() << endl;
+        stud.setVar(vardas);
+    stud.setPav(pavarde);
+    stud.setV(nd);
+    stud.setEgz(e);
+    if(y==1)
+    stud.setGalV();
+    else stud.setGalM();
+    studentai.push_back(stud);
+    nd.clear();
+    }
 }
-void ivedimas(vector<duomenys> &info, int sk )
+void ivedimas(vector<Studentas> &studentai, int sk )
 {
+    //int sk=studentai.size();
+    Studentas stud;
+    string vardas, pavarde;
+    int e;
+    vector<int> nd;
+    int x;
+    cout << "Galutinio balo skaiciavimui naudoti vidurki(1) ar mediana(2)? ";cin >> x; ifint(x);
 
     for(int i=0;i<sk;i++)
     {
-        cout << "Iveskite varda ";cin >> info[i].var; cout << endl;
-        cout << "Iveskite pavarde ";cin >> info[i].pav; cout << endl;
+        cout << "Iveskite varda ";cin >> vardas; cout << endl;
+        cout << "Iveskite pavarde ";cin >> pavarde; cout << endl;
         int a,y;
         cout << "Ar norite pazymius generuoti atsitiktinai?( 1 jei taip, 0 jei ne) ";cin>>y;
+        int n;
         if(y==0)
         {
             cout << "Ar pazymiu skaicius yra zinomas (1 jei taip, 0 jei ne) "; cin >> a; ifint(a);
             if(a==1)
             {
-                cout << "Iveskite pazymiu skaiciu "; cin >> info[i].n; ifint(info[i].n); cout << endl;
+
+                cout << "Iveskite pazymiu skaiciu "; cin >> n; ifint(n); cout << endl;
                 cout << "Iveskite pazymius " << endl;
-                for(int j=0;j<info[i].n;j++)
+                for(int j=0;j<n;j++)
                 {
                     int p;
                     cin >> p;
                     ifint(p);
-                    info[i].v.push_back(p);
+                    nd.push_back(p);
                 }
             }
             else if(a==0)
@@ -149,7 +248,7 @@ void ivedimas(vector<duomenys> &info, int sk )
                 int p;
                 cin >> p;
                 ifint(p);
-                info[i].v.push_back(p);
+                nd.push_back(p);
                 for(;;)
                 {
                     int b;
@@ -162,7 +261,7 @@ void ivedimas(vector<duomenys> &info, int sk )
                         int p;
                         cin >> p;
                         ifint(p);
-                        info[i].v.push_back(p);
+                        nd.push_back(p);
                     }
                     else break;
                 }
@@ -170,81 +269,37 @@ void ivedimas(vector<duomenys> &info, int sk )
         }
         else
         {
-            cout << "Iveskite pazymiu skaiciu ";cin >> info[i].n; ifint(info[i].n);
-            for(int j=0;j<info[i].n;j++)
-                info[i].v.push_back(rand()%10+1 );
+            cout << "Iveskite pazymiu skaiciu ";cin >> n; ifint(n);
+            for(int j=0;j<n;j++)
+                nd.push_back(rand()%10+1 );
         }
-        cout << "Iveskite egzamino rezultata ";cin >> info[i].egz;ifint(info[i].egz);cout << endl;
+        cout << "Iveskite egzamino rezultata ";cin >> e;ifint(e);cout << endl;
+        stud.setVar(vardas);
+        stud.setPav(pavarde);
+        stud.setV(nd);
+        stud.setEgz(e);
+        if(x==1)
+        stud.setGalV();
+        else stud.setGalM();
+        studentai.push_back(stud);
+        nd.clear();
     }
 }
 
-void galutinisv(vector<duomenys> &info, int sk)
+
+void spaus(vector<Studentas> &studentai)
 {
-
-    sk=info.size();
-    for(int i=0;i<sk;i++)
+    int didv=1, didp=1;
+    for(auto stud: studentai)
     {
-        double vid=0;
-        int ska=info[i].v.size();
-        for(int j=0;j<ska;j++)
-        {
-            vid+=info[i].v[j];
-            info[i].v.clear();
+        if(stud.getVar().size()>didv)
+            didv=stud.getVar().size();
 
-        }
-        info[i].gal=0.4*(vid/ska) + 0.6*info[i].egz;
+        if(stud.getPav().size()>didp)
+            didv=stud.getPav().size();
     }
+    sortByName(studentai);
 
-}
-void galutinisv(deque<duomenys> &info, int sk)
-{
-
-    sk=info.size();
-    for(int i=0;i<sk;i++)
-    {
-        double vid=0;
-        int ska=info[i].v.size();
-        for(int j=0;j<ska;j++)
-        {
-            vid+=info[i].v[j];
-            info[i].v.clear();
-
-        }
-        info[i].gal=0.4*(vid/ska) + 0.6*info[i].egz;
-    }
-
-}
-void galutinism(vector<duomenys> &info, int sk)
-{
-    double med;
-    sk=info.size();
-    for(int i=0;i<sk;i++)
-    {
-        int ska=info[i].v.size();
-        sort(info[i].v.begin(), info[i].v.end());
-        if(ska%2==0)
-        {
-            med=info[i].v[ska/2];
-            info[i].v.clear();
-        }
-        else med=(info[i].v[ska/2]+info[i].v[ska/2+1])/2;
-
-        info[i].gal=0.4*med + 0.6*info[i].egz;
-    }
-}
-void spausv(vector<duomenys> &info, int sk)
-{
-    int didv=info[0].var.size(), didp=info[0].pav.size();
-    for(int i=0;i<sk;i++)
-    {
-        if(info[i].var.size()>didv)
-            didv=info[i].var.size();
-
-        if(info[i].pav.size()>didp)
-            didv=info[i].pav.size();
-    }
-    sort(info.begin(), info.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
 
     ofstream fr("galvociai.txt");
     ofstream frr("vargsiukai.txt");
@@ -258,81 +313,41 @@ void spausv(vector<duomenys> &info, int sk)
         frr <<"-";
     frr << endl;
 
-    for(int i=0;i<sk;i++)
+    for(auto &stud:studentai)
     {
-        if(info[i].gal>=5)
-        fr << setw(didv+9) << left << info[i].var << setw(didp+15) << left << info[i].pav << setw(20) << left << fixed << setprecision(3) << info[i].gal << endl;
-        else frr << setw(didv+9) << left << info[i].var << setw(didp+15) << left << info[i].pav << setw(20) << left << fixed << setprecision(3) << info[i].gal << endl;
+        stud.setGal();
+        if(stud.getGal()>=5)
+        fr << setw(didv+9) << left << stud.getVar() << setw(didp+15) << left << stud.getPav() << setw(20) << left << fixed << setprecision(3) << stud.getGal() << endl;
+        else frr << setw(didv+9) << left << stud.getVar() << setw(didp+15) << left << stud.getPav() << setw(20) << left << fixed << setprecision(3) << stud.getGal() << endl;
     }
     fr.close();
     frr.close();
 
 }
-void spausm(vector<duomenys> &info, int sk)
-{
-    int didv=info[0].var.size(), didp=info[0].pav.size();
-    for(int i=0;i<sk;i++)
-    {
-        if(info[i].var.size()>didv)
-            didv=info[i].var.size();
 
-        if(info[i].pav.size()>didp)
-            didv=info[i].pav.size();
-    }
-     sort(info.begin(), info.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
 
-    ofstream fr("galvociai.txt");
-    ofstream frr("vargsiukai.txt");
-
-    fr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    frr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        fr <<"-";
-    fr << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        frr <<"-";
-    frr << endl;
-
-    for(int i=0;i<sk;i++)
-    {
-        if(info[i].gal>=5)
-        fr << setw(didv+9) << left << info[i].var << setw(didp+15) << left << info[i].pav << setw(20) << left << fixed << setprecision(3) << info[i].gal << endl;
-        else frr << setw(didv+9) << left << info[i].var << setw(didp+15) << left << info[i].pav << setw(20) << left << fixed << setprecision(3) << info[i].gal << endl;
-    }
-    fr.close();
-    frr.close();
-
-}
-bool sortByName(const duomenys & stud1, const duomenys & stud2)
-{
-    return (stud1.var < stud2.var) ||
-           ((stud1.var == stud2.var) && (stud1.pav > stud2.pav));
-}
-
-void print1(vector<duomenys> &vargsiukai, vector<duomenys> &kietekai)
+void print1(vector<Studentas> &vargsiukai, vector<Studentas> &kietekai)
 {
     int didv=1, didp=1;
-    for(auto i:vargsiukai)
+    for(auto varg: vargsiukai)
     {
-        if(i.var.size()>didv)
-            didv=i.var.size();
+        if(varg.getVar().size()>didv)
+            didv=varg.getVar().size();
 
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
+        if(varg.getPav().size()>didp)
+            didv=varg.getPav().size();
     }
-    for(auto i:kietekai)
+    for(auto kiet: kietekai)
     {
-        if(i.var.size()>didv)
-            didv=i.var.size();
+        if(kiet.getVar().size()>didv)
+            didv=kiet.getVar().size();
 
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
+        if(kiet.getPav().size()>didp)
+            didv=kiet.getPav().size();
     }
-    sort(vargsiukai.begin(), vargsiukai.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
-    sort(kietekai.begin(), kietekai.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
+    sortByName(kietekai);
+    sortByName(vargsiukai);
+
     ofstream fr("kietekai.txt");
     ofstream frr("vargsiukai.txt");
 
@@ -347,114 +362,23 @@ void print1(vector<duomenys> &vargsiukai, vector<duomenys> &kietekai)
 
     for(auto i:kietekai)
     {
-        fr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
+        fr << setw(didv+9) << left << i.getVar() << setw(didp+15) << left << i.getPav() << setw(20) << left << fixed << setprecision(3) << i.getGal() << endl;
     }
     for(auto i:vargsiukai)
     {
-        frr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
+        frr << setw(didv+9) << left << i.getVar() << setw(didp+15) << left << i.getPav() << setw(20) << left << fixed << setprecision(3) << i.getGal() << endl;
 
     }
     fr.close();
     frr.close();
 }
-void print1(deque<duomenys> &vargsiukai, deque<duomenys> &kietekai)
-{
-    int didv=1, didp=1;
-    for(auto i:vargsiukai)
-    {
-        if(i.var.size()>didv)
-            didv=i.var.size();
 
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
-    }
-    for(auto i:kietekai)
-    {
-        if(i.var.size()>didv)
-            didv=i.var.size();
-
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
-    }
-    sort(vargsiukai.begin(), vargsiukai.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
-    sort(kietekai.begin(), kietekai.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
-    ofstream fr("kietekai.txt");
-    ofstream frr("vargsiukai.txt");
-
-    fr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    frr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        fr <<"-";
-    fr << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        frr <<"-";
-    frr << endl;
-
-    for(auto i:kietekai)
-    {
-        fr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
-    }
-    for(auto i:vargsiukai)
-    {
-        frr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
-
-    }
-    fr.close();
-    frr.close();
-}
-void print1(list<duomenys> &vargsiukai, list<duomenys> &kietekai)
-{
-    int didv=1, didp=1;
-    for(auto i:vargsiukai)
-    {
-        if(i.var.size()>didv)
-            didv=i.var.size();
-
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
-    }
-    for(auto i:kietekai)
-    {
-        if(i.var.size()>didv)
-            didv=i.var.size();
-
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
-    }
-    vargsiukai.sort( sortByName);
-    kietekai.sort( sortByName);
-    ofstream fr("kietekai.txt");
-    ofstream frr("vargsiukai.txt");
-
-    fr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    frr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        fr <<"-";
-    fr << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        frr <<"-";
-    frr << endl;
-
-    for(auto i:kietekai)
-    {
-        fr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
-    }
-    for(auto i:vargsiukai)
-    {
-        frr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
-
-    }
-    fr.close();
-    frr.close();
-}
-void test(vector<duomenys> &info, vector<duomenys> &vargsiukai, vector<duomenys> &kietekai)
+void test(vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<Studentas> &kietekai)
 {
     auto start = std::chrono::system_clock::now();
     generavimas();
     string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    for(int i=0;i<5;i++)
+    for(int i=3;i<5;i++)
     {
 
         ifstream fd(duom[i]);
@@ -467,54 +391,70 @@ void test(vector<duomenys> &info, vector<duomenys> &vargsiukai, vector<duomenys>
             cout << "File failed to open" << endl;
             std::abort();
         }
-    string line, text;
-    int ind = 0, grade;
+
+    Studentas stud;
+    string line;
+    int  grade;
+    string vardas, pavarde;
+    int e;
+    vector<int> nd;
     std::getline(fd, line);
     while (std::getline(fd, line)) {
         std::istringstream reading(line);
-        info.push_back(duomenys());
-        reading >> info[ind].var;
-        reading >> info[ind].pav;
+        reading >> vardas;
+        reading >> pavarde;
         while (reading) {
             reading >> grade;
-            info[ind].v.push_back(grade);
+            nd.push_back(grade);
         }
-        info[ind].egz = info[ind].v.back();
-        info[ind].v.pop_back();
+        e = nd.back();
+        nd.pop_back();
 
+        stud.setVar(vardas);
+        stud.setPav(pavarde);
+        stud.setV(nd);
+        stud.setEgz(e);
+        stud.setGalV();
 
-        ind++;
+        studentai.push_back(stud);
+        nd.clear();
     }
 
-    int sk=info.size();
+    for(auto &stu:studentai)
+    {
+        stu.setGal();
 
-        galutinisv(info,sk);
-
-        for(auto &i:info)
+    }
+    int galutinis;
+        for(auto &stu: studentai)
         {
-            int j=0,l=0;
-            if(i.gal>=5)
+            if(stu.getGal()>=5)
             {
-                kietekai.push_back(duomenys());
-                kietekai[j].var=i.var;
-                kietekai[j].pav=i.pav;
-                kietekai[j].gal=i.gal;
-                j++;
+                vardas=stu.getVar();
+                pavarde=stu.getPav();
+                galutinis=stu.getGal();
+                stud.setVar(vardas);
+                stud.setPav(pavarde);
+                stud.setGalutinis(galutinis);
+                kietekai.push_back(stud);
+
             }
 
-            else if(i.gal<5)
+            else if(stu.getGal()<5)
             {
-                vargsiukai.push_back(duomenys());
-                vargsiukai[l].var=i.var;
-                vargsiukai[l].pav=i.pav;
-                vargsiukai[l].gal=i.gal;
-                l++;
+                vardas=stu.getVar();
+                pavarde=stu.getPav();
+                galutinis=stu.getGal();
+                stud.setVar(vardas);
+                stud.setPav(pavarde);
+                stud.setGalutinis(galutinis);
+                vargsiukai.push_back(stud);
             }
 
 
         }
         print1(vargsiukai,kietekai);
-        info.clear();
+        studentai.clear();
         vargsiukai.clear();
         kietekai.clear();
 
@@ -524,201 +464,35 @@ void test(vector<duomenys> &info, vector<duomenys> &vargsiukai, vector<duomenys>
     cout << "Programa uztruko : " << elapsed_seconds.count() << " sekundziu\n";
 
 }
-void test(deque<duomenys> &info, deque<duomenys> &vargsiukai, deque<duomenys> &kietekai)
+
+bool ifvargsiukas(const Studentas & stu)
 {
-    auto start = std::chrono::system_clock::now();
-    generavimas();
-
-    string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    for(int i=0;i<5;i++)
-    {
-
-        ifstream fd(duom[i]);
-    try{
-        if(!fd)
-            throw 0;
-        }
-        catch (int x)
-        {
-            cout << "File failed to open" << endl;
-            std::abort();
-        }
-    string line, text;
-    int ind = 0, grade;
-    std::getline(fd, line);
-    while (std::getline(fd, line)) {
-        std::istringstream reading(line);
-        info.push_back(duomenys());
-        reading >> info[ind].var;
-        reading >> info[ind].pav;
-        while (reading) {
-            reading >> grade;
-            info[ind].v.push_back(grade);
-        }
-        info[ind].egz = info[ind].v.back();
-        info[ind].v.pop_back();
-
-
-        ind++;
-    }
-
-    int sk=info.size();
-
-        galutinisv(info,sk);
-
-        for(auto &i:info)
-        {
-            int j=0,l=0;
-            if(i.gal>=5)
-            {
-                kietekai.push_back(duomenys());
-                kietekai[j].var=i.var;
-                kietekai[j].pav=i.pav;
-                kietekai[j].gal=i.gal;
-                j++;
-            }
-
-            else if(i.gal<5)
-            {
-                vargsiukai.push_back(duomenys());
-                vargsiukai[l].var=i.var;
-                vargsiukai[l].pav=i.pav;
-                vargsiukai[l].gal=i.gal;
-                l++;
-            }
-
-
-        }
-        print1(vargsiukai,kietekai);
-        info.clear();
-        vargsiukai.clear();
-        kietekai.clear();
-
-    }
-    auto end = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end-start;
-    cout << "Programa uztruko : " << elapsed_seconds.count() << " sekundziu\n";
-
-
-}
-
-double galutinis(duomenys student)
-{
-    int sk=student.v.size();
-    double vid=0;
-    double gal=0;
-    for(int i=0;i<sk;i++)
-    {
-        vid+=student.v[i];
-
-    }
-    gal=0.4*(vid/sk) + 0.6*student.egz;
-    return gal;
-}
-
-void test(list<duomenys> &info, duomenys student, list<duomenys> &vargsiukai, list<duomenys> &kietekai)
-{
-    auto start = std::chrono::system_clock::now();
-    generavimas();
-
-
-    string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    for(int i=0;i<5;i++)
-    {
-
-        ifstream fd(duom[i]);
-    try{
-        if(!fd)
-            throw 0;
-        }
-        catch (int x)
-        {
-            cout << "File failed to open" << endl;
-            std::abort();
-        }
-    string line, text;
-    int ind = 0, grade;
-    std::getline(fd, line);
-    while (std::getline(fd, line)) {
-        std::istringstream reading(line);
-        reading >> student.var;
-        reading >> student.pav;
-        while (reading) {
-            reading >> grade;
-            student.v.push_back(grade);
-        }
-        student.egz = student.v.back();
-        student.v.pop_back();
-        student.gal=galutinis(student);
-        student.v.clear();
-        info.push_back(student);
-        ind++;
-    }
-
-    for(auto &i:info)
-        {
-            if(i.gal>=5)
-            {
-                student.var=i.var;
-                student.pav=i.pav;
-                student.gal=i.gal;
-                kietekai.push_back(student);
-            }
-
-            else if(i.gal<5)
-            {
-                student.var=i.var;
-                student.pav=i.pav;
-                student.gal=i.gal;
-                vargsiukai.push_back(student);
-            }
-
-
-        }
-
-
-        print1(vargsiukai,kietekai);
-        info.clear();
-        vargsiukai.clear();
-        kietekai.clear();
-
-
-    }
-    auto end = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end-start;
-    cout << "Programa uztruko : " << elapsed_seconds.count() << " sekundziu\n";
-}
-template< typename container>
-
-bool ifvargsiukas(container &stud)
-{
-    if(stud.gal>=5)
+    if(stu.getGal()>=5)
         return true;
     else return false;
 }
-void print2(vector<duomenys> &info, vector<duomenys> &vargsiukai)
+void print2(vector<Studentas> &studentai, vector<Studentas> &vargsiukai)
 {
     int didv=1, didp=1;
-    for(auto i:vargsiukai)
+    for(auto varg: vargsiukai)
     {
-        if(i.var.size()>didv)
-            didv=i.var.size();
+        if(varg.getVar().size()>didv)
+            didv=varg.getVar().size();
 
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
+        if(varg.getPav().size()>didp)
+            didv=varg.getPav().size();
     }
-    for(auto i:info)
+    for(auto stud: studentai)
     {
-        if(i.var.size()>didv)
-            didv=i.var.size();
+        if(stud.getVar().size()>didv)
+            didv=stud.getVar().size();
 
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
+        if(stud.getPav().size()>didp)
+            didv=stud.getPav().size();
     }
-    sort(vargsiukai.begin(), vargsiukai.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
-    sort(info.begin(), info.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
+    sortByName(studentai);
+    sortByName(vargsiukai);
+
     ofstream fr("studentai.txt");
     ofstream frr("vargsiukai.txt");
 
@@ -731,124 +505,26 @@ void print2(vector<duomenys> &info, vector<duomenys> &vargsiukai)
         frr <<"-";
     frr << endl;
 
-    for(auto i:info)
+    for(auto i:studentai)
     {
-        fr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
+        fr << setw(didv+9) << left << i.getVar() << setw(didp+15) << left << i.getPav() << setw(20) << left << fixed << setprecision(3) << i.getGal() << endl;
     }
     for(auto i:vargsiukai)
     {
-        frr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
+        frr << setw(didv+9) << left << i.getVar() << setw(didp+15) << left << i.getPav() << setw(20) << left << fixed << setprecision(3) << i.getGal() << endl;
 
     }
     fr.close();
     frr.close();
 }
-void print2(deque<duomenys> &info, deque<duomenys> &vargsiukai)
-{
-    int didv=1, didp=1;
-    for(auto i:vargsiukai)
-    {
-        if(i.var.size()>didv)
-            didv=i.var.size();
 
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
-    }
-    for(auto i:info)
-    {
-        if(i.var.size()>didv)
-            didv=i.var.size();
-
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
-    }
-    sort(vargsiukai.begin(), vargsiukai.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
-    sort(info.begin(), info.end(),
-       [](duomenys s1, duomenys s2) { return s1.var < s2.var; });
-    ofstream fr("studentai.txt");
-    ofstream frr("vargsiukai.txt");
-
-    fr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    frr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        fr <<"-";
-    fr << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        frr <<"-";
-    frr << endl;
-
-    for(auto i:info)
-    {
-        fr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
-    }
-    for(auto i:vargsiukai)
-    {
-        frr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
-
-    }
-    fr.close();
-    frr.close();
-}
-void print2(list<duomenys> &info, list<duomenys> &vargsiukai)
-{
-    int didv=1, didp=1;
-    for(auto i:vargsiukai)
-    {
-        if(i.var.size()>didv)
-            didv=i.var.size();
-
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
-    }
-    for(auto i:info)
-    {
-        if(i.var.size()>didv)
-            didv=i.var.size();
-
-        if(i.pav.size()>didp)
-            didv=i.pav.size();
-    }
-    vargsiukai.sort( sortByName);
-    info.sort( sortByName);
-    ofstream fr("studentai.txt");
-    ofstream frr("vargsiukai.txt");
-
-    fr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    frr << setw(didv+9) << left << "Vardas" << setw(didp+15) << left << "Pavarde" << setw(20) << left << "Galutinis (Vid.)" << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        fr <<"-";
-    fr << endl;
-    for(int i=0;i<didv+didp+9+15+20;i++)
-        frr <<"-";
-    frr << endl;
-
-    for(auto i:info)
-    {
-        fr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
-    }
-    for(auto i:vargsiukai)
-    {
-        frr << setw(didv+9) << left << i.var << setw(didp+15) << left << i.pav << setw(20) << left << fixed << setprecision(3) << i.gal << endl;
-
-    }
-    fr.close();
-    frr.close();
-}
-void test2(vector<duomenys> &info, vector<duomenys> &vargsiukai)
+void test2(vector<Studentas> &studentai, vector<Studentas> &vargsiukai)
 {
     auto start = std::chrono::system_clock::now();
-    //auto start = std::chrono::system_clock::now();
     generavimas();
-    //auto end = std::chrono::system_clock::now();
-    //std::chrono::duration<double> elapsed_seconds_g = end-start;
 
-    //int x;
-    //cout << "Galutinio balo skaiciavimui naudojamas vidurkis " << endl;//cin >> x;
-    //vector<duomenys> vargsiukai;
-    //vector<duomenys> kietekai;
     string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    for(int i=0;i<5;i++)
+    for(int i=3;i<5;i++)
     {
 
         ifstream fd(duom[i]);
@@ -861,41 +537,54 @@ void test2(vector<duomenys> &info, vector<duomenys> &vargsiukai)
             cout << "File failed to open" << endl;
             std::abort();
         }
-    string line, text;
-    int ind = 0, grade;
+    Studentas stud;
+    string line;
+    int  grade;
+    string vardas, pavarde;
+    int e;
+    vector<int> nd;
     std::getline(fd, line);
     while (std::getline(fd, line)) {
         std::istringstream reading(line);
-        info.push_back(duomenys());
-        reading >> info[ind].var;
-        reading >> info[ind].pav;
+        reading >> vardas;
+        reading >> pavarde;
         while (reading) {
             reading >> grade;
-            info[ind].v.push_back(grade);
+            nd.push_back(grade);
         }
-        info[ind].egz = info[ind].v.back();
-        info[ind].v.pop_back();
+        e = nd.back();
+        nd.pop_back();
 
-
-        ind++;
+        stud.setVar(vardas);
+        stud.setPav(pavarde);
+        stud.setV(nd);
+        stud.setEgz(e);
+        stud.setGalV();
+        studentai.push_back(stud);
+        nd.clear();
     }
 
-    int sk=info.size();
+    for(auto &stu:studentai)
+    {
+        stu.setGal();
+    }
 
-        galutinisv(info,sk);
+    int sk=studentai.size();
 
-        auto bound = std::stable_partition(info.begin(), info.end(),
+
+
+        auto bound = std::stable_partition(studentai.begin(), studentai.end(),
                         [&](const auto& vec) { return ifvargsiukas(vec); });
 
         vargsiukai.insert(vargsiukai.end(), std::make_move_iterator(bound),
-                  std::make_move_iterator(info.end()));
+                  std::make_move_iterator(studentai.end()));
 
-        info.erase(bound, info.end());
+        studentai.erase(bound, studentai.end());
 
 
 
-        print2(info,vargsiukai);
-        info.clear();
+        print2(studentai,vargsiukai);
+        studentai.clear();
         vargsiukai.clear();
 
     }
@@ -904,123 +593,4 @@ void test2(vector<duomenys> &info, vector<duomenys> &vargsiukai)
     cout << "Programa uztruko : " << elapsed_seconds.count() << " sekundziu\n";
 
 
-}
-void test2(deque<duomenys> &info, deque<duomenys> &vargsiukai)
-{
-    auto start = std::chrono::system_clock::now();
-    generavimas();
-    string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    for(int i=0;i<5;i++)
-    {
-
-        ifstream fd(duom[i]);
-    try{
-        if(!fd)
-            throw 0;
-        }
-        catch (int x)
-        {
-            cout << "File failed to open" << endl;
-            std::abort();
-        }
-    string line, text;
-    int ind = 0, grade;
-    std::getline(fd, line);
-    while (std::getline(fd, line)) {
-        std::istringstream reading(line);
-        info.push_back(duomenys());
-        reading >> info[ind].var;
-        reading >> info[ind].pav;
-        while (reading) {
-            reading >> grade;
-            info[ind].v.push_back(grade);
-        }
-        info[ind].egz = info[ind].v.back();
-        info[ind].v.pop_back();
-
-
-        ind++;
-    }
-
-    int sk=info.size();
-
-        galutinisv(info,sk);
-
-        auto bound = std::stable_partition(info.begin(), info.end(),
-                        [&](const auto& vec) { return ifvargsiukas(vec); });
-
-        vargsiukai.insert(vargsiukai.end(), std::make_move_iterator(bound),
-                  std::make_move_iterator(info.end()));
-
-        info.erase(bound, info.end());
-
-
-        print2(info,vargsiukai);
-        info.clear();
-        vargsiukai.clear();
-
-    }
-    auto end = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end-start;
-    cout << "Programa uztruko : " << elapsed_seconds.count() << " sekundziu\n";
-
-
-}
-
-void test2(list<duomenys> &info, duomenys student, list<duomenys> &vargsiukai)
-{
-    auto start = std::chrono::system_clock::now();
-    generavimas();
-
-    string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    for(int i=0;i<5;i++)
-    {
-
-        ifstream fd(duom[i]);
-    try{
-        if(!fd)
-            throw 0;
-        }
-        catch (int x)
-        {
-            cout << "File failed to open" << endl;
-            std::abort();
-        }
-    string line, text;
-    int ind = 0, grade;
-    std::getline(fd, line);
-    while (std::getline(fd, line)) {
-        std::istringstream reading(line);
-        reading >> student.var;
-        reading >> student.pav;
-        while (reading) {
-            reading >> grade;
-            student.v.push_back(grade);
-        }
-        student.egz = student.v.back();
-        student.v.pop_back();
-        student.gal=galutinis(student);
-        student.v.clear();
-        info.push_back(student);
-        ind++;
-    }
-
-    for (list<duomenys>::iterator it=info.begin(); it!=info.end(); ++it)
-        {
-            if (!ifvargsiukas(*it))
-            {
-                vargsiukai.push_back((*it));
-                info.erase(it);
-            }
-        }
-
-        print2(info,vargsiukai);
-        info.clear();
-        vargsiukai.clear();
-
-
-    }
-    auto end = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end-start;
-    cout << "Programa uztruko : " << elapsed_seconds.count() << " sekundziu\n";
 }
