@@ -41,4 +41,4 @@ Compiler flags
 1 strategija Programa uztruko : 4.77208 sekundziu
 2 strategija Programa uztruko : 4.42716 sekundziu
 ```
-### ![Pic](pic1.1.png)
+### ![Pic](pic1.1.PNG)
