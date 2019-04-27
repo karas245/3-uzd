@@ -25,3 +25,20 @@
 - Konteinerių testavimas pagal 2 strategijas
 - Pridėti README.md ir CMakeList.txt failai
 ### ![Pic](pic.png)
+### [v1.1](https://github.com/karas245/3-uzd/releases/tag/v1.1)
+- Vietoj struct naudojama class
+```
+Compiler flags
+01 
+1 strategija Programa uztruko : 4.62947 sekundziu
+2 strategija Programa uztruko : 4.41805 sekundziu
+
+02
+1 strategija Programa uztruko : 4.75927 sekundziu
+2 strategija Programa uztruko : 4.43813 sekundziu
+
+03
+1 strategija Programa uztruko : 4.77208 sekundziu
+2 strategija Programa uztruko : 4.42716 sekundziu
+```
+### ![Pic](pic1.1.PNG)
