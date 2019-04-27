@@ -40,6 +40,8 @@ private:
     double gal;
     double galv;
     double galm;
+    int nvar;
+    int npav;
 public:
     Studentas();
     ~Studentas() {}
@@ -51,15 +53,23 @@ public:
     double setGalutinis(int);
     double setGalV();
     double setGalM();
+    int setNvar(int);
+    int setNpav(int);
 
     string getVar() const {return var;}
     string getPav() const {return pav;}
     int getEgz() const {return egz;}
     double getGal() const {return gal;}
     vector<int> getV() const {return v;}
+    int getNvar() const {return nvar;}
+    int getNpav() const {return npav;}
+
     void sortClass(vector<Studentas>);
+    bool operator>=(const Studentas& st) ;
+    bool operator<(const Studentas& st) ;
 
 };
+std::ostream& operator<<(std::ostream& out, const Studentas& st);
 
 
 bool namecheck(const Studentas & s1, const Studentas & s2);

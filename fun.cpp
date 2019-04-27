@@ -9,6 +9,8 @@ Studentas::Studentas()
     gal=0;
     galv=0;
     galm=0;
+    nvar=1;
+    npav=1;
 }
 
 
@@ -71,6 +73,14 @@ int Studentas::setEgz(int e)
 {
     egz=e;
 }
+int Studentas::setNvar(int didv)
+{
+    nvar=didv;
+}
+int Studentas::setNpav(int didp)
+{
+    npav=didp;
+}
 bool namecheck(const Studentas & s1, const Studentas & s2)
 {
     return (s1.getVar() < s2.getVar());
@@ -89,6 +99,19 @@ void ifint(int ii)
         cin.ignore(INT_MAX, '\n');
         cin >> ii;
     }
+}
+bool Studentas::operator>=(const Studentas& st) {
+    return st.getGal() >= 5;
+}
+
+bool Studentas::operator<(const Studentas& st) {
+    return st.getGal() < 5  ;
+}
+
+std::ostream& operator<<(std::ostream& out, const Studentas& st)
+{
+    out << setw(st.getNvar()+9) << left << st.getVar() << setw(st.getNpav()+15) << left << st.getPav() << setw(20) << left << fixed << setprecision(3) << st.getGal() << endl;
+   return out;
 }
 void generavimas()
 {
@@ -286,7 +309,6 @@ void ivedimas(vector<Studentas> &studentai, int sk )
     }
 }
 
-
 void spaus(vector<Studentas> &studentai)
 {
     int didv=1, didp=1;
@@ -297,6 +319,11 @@ void spaus(vector<Studentas> &studentai)
 
         if(stud.getPav().size()>didp)
             didv=stud.getPav().size();
+    }
+    for(auto &st:studentai)
+    {
+        st.setNvar(didv);
+        st.setNpav(didp);
     }
     sortByName(studentai);
 
@@ -313,12 +340,12 @@ void spaus(vector<Studentas> &studentai)
         frr <<"-";
     frr << endl;
 
-    for(auto &stud:studentai)
+    for(auto &st:studentai)
     {
-        stud.setGal();
-        if(stud.getGal()>=5)
-        fr << setw(didv+9) << left << stud.getVar() << setw(didp+15) << left << stud.getPav() << setw(20) << left << fixed << setprecision(3) << stud.getGal() << endl;
-        else frr << setw(didv+9) << left << stud.getVar() << setw(didp+15) << left << stud.getPav() << setw(20) << left << fixed << setprecision(3) << stud.getGal() << endl;
+        st.setGal();
+        if(st>=st)
+        fr << st;
+        else frr << st;
     }
     fr.close();
     frr.close();
@@ -337,6 +364,11 @@ void print1(vector<Studentas> &vargsiukai, vector<Studentas> &kietekai)
         if(varg.getPav().size()>didp)
             didv=varg.getPav().size();
     }
+    for(auto &varg:vargsiukai)
+    {
+        varg.setNvar(didv);
+        varg.setNpav(didp);
+    }
     for(auto kiet: kietekai)
     {
         if(kiet.getVar().size()>didv)
@@ -344,6 +376,11 @@ void print1(vector<Studentas> &vargsiukai, vector<Studentas> &kietekai)
 
         if(kiet.getPav().size()>didp)
             didv=kiet.getPav().size();
+    }
+    for(auto &kiet:kietekai)
+    {
+        kiet.setNvar(didv);
+        kiet.setNpav(didp);
     }
     sortByName(kietekai);
     sortByName(vargsiukai);
@@ -360,13 +397,13 @@ void print1(vector<Studentas> &vargsiukai, vector<Studentas> &kietekai)
         frr <<"-";
     frr << endl;
 
-    for(auto i:kietekai)
+    for(auto kiet:kietekai)
     {
-        fr << setw(didv+9) << left << i.getVar() << setw(didp+15) << left << i.getPav() << setw(20) << left << fixed << setprecision(3) << i.getGal() << endl;
+        fr << kiet;
     }
-    for(auto i:vargsiukai)
+    for(auto varg:vargsiukai)
     {
-        frr << setw(didv+9) << left << i.getVar() << setw(didp+15) << left << i.getPav() << setw(20) << left << fixed << setprecision(3) << i.getGal() << endl;
+        frr << varg;
 
     }
     fr.close();
@@ -378,7 +415,7 @@ void test(vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<St
     auto start = std::chrono::system_clock::now();
     generavimas();
     string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    for(int i=3;i<5;i++)
+    for(int i=0;i<5;i++)
     {
 
         ifstream fd(duom[i]);
@@ -428,7 +465,7 @@ void test(vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<St
     int galutinis;
         for(auto &stu: studentai)
         {
-            if(stu.getGal()>=5)
+            if(stu>=stu)
             {
                 vardas=stu.getVar();
                 pavarde=stu.getPav();
@@ -440,7 +477,7 @@ void test(vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<St
 
             }
 
-            else if(stu.getGal()<5)
+            else if(stu<stu)
             {
                 vardas=stu.getVar();
                 pavarde=stu.getPav();
@@ -482,6 +519,11 @@ void print2(vector<Studentas> &studentai, vector<Studentas> &vargsiukai)
         if(varg.getPav().size()>didp)
             didv=varg.getPav().size();
     }
+    for(auto &varg:vargsiukai)
+    {
+        varg.setNvar(didv);
+        varg.setNpav(didp);
+    }
     for(auto stud: studentai)
     {
         if(stud.getVar().size()>didv)
@@ -489,6 +531,11 @@ void print2(vector<Studentas> &studentai, vector<Studentas> &vargsiukai)
 
         if(stud.getPav().size()>didp)
             didv=stud.getPav().size();
+    }
+    for(auto &st:studentai)
+    {
+        st.setNvar(didv);
+        st.setNpav(didp);
     }
     sortByName(studentai);
     sortByName(vargsiukai);
@@ -505,14 +552,13 @@ void print2(vector<Studentas> &studentai, vector<Studentas> &vargsiukai)
         frr <<"-";
     frr << endl;
 
-    for(auto i:studentai)
+    for(auto st:studentai)
     {
-        fr << setw(didv+9) << left << i.getVar() << setw(didp+15) << left << i.getPav() << setw(20) << left << fixed << setprecision(3) << i.getGal() << endl;
+        fr << st;
     }
-    for(auto i:vargsiukai)
+    for(auto varg:vargsiukai)
     {
-        frr << setw(didv+9) << left << i.getVar() << setw(didp+15) << left << i.getPav() << setw(20) << left << fixed << setprecision(3) << i.getGal() << endl;
-
+        frr << varg;
     }
     fr.close();
     frr.close();
@@ -524,7 +570,7 @@ void test2(vector<Studentas> &studentai, vector<Studentas> &vargsiukai)
     generavimas();
 
     string duom[5]={"duomenys1.txt", "duomenys2.txt", "duomenys3.txt", "duomenys4.txt", "duomenys5.txt"};
-    for(int i=3;i<5;i++)
+    for(int i=0;i<5;i++)
     {
 
         ifstream fd(duom[i]);
