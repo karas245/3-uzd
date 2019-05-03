@@ -2,8 +2,6 @@
 
 Studentas::Studentas()
 {
-    var="Vardas";
-    pav="Pavarde";
     v.push_back(0);
     egz=0;
     gal=0;
@@ -53,14 +51,7 @@ double Studentas::setGalutinis(int galutinis)
 {
     gal=galutinis;
 }
-string Studentas::setVar(string vardas)
-{
-    var=vardas;
-}
-string Studentas::setPav(string pavarde)
-{
-    pav=pavarde;
-}
+
 vector<int> Studentas::setV(vector<int> nd)
 {
     for(auto i:nd)

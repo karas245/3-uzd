@@ -30,11 +30,21 @@ using std::ofstream;
 using std::list;
 using std::deque;
 
+class Asmuo{
+protected:
+    string var ="Vardas";
+    string pav ="Pavarde";
+public:
+    Asmuo() {var ="Vardas";pav ="Pavarde";}
+    string setVar(string vardas) {var=vardas;}
+    string setPav(string pavarde) {pav=pavarde;}
+    string getVar() const {return var;}
+    string getPav() const {return pav;}
 
-class Studentas{
+};
+
+class Studentas : public Asmuo{
 private:
-    string var;
-    string pav;
     vector<int> v;
     int egz;
     double gal;
@@ -45,8 +55,6 @@ private:
 public:
     Studentas();
     ~Studentas() {}
-    string setVar(string);
-    string setPav(string);
     vector<int> setV(vector<int>);
     int setEgz(int);
     double setGal();
@@ -56,8 +64,6 @@ public:
     int setNvar(int);
     int setNpav(int);
 
-    string getVar() const {return var;}
-    string getPav() const {return pav;}
     int getEgz() const {return egz;}
     double getGal() const {return gal;}
     vector<int> getV() const {return v;}
