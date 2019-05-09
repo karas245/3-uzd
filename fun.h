@@ -36,10 +36,11 @@ protected:
     string pav ="Pavarde";
 public:
     Asmuo() {var ="Vardas";pav ="Pavarde";}
-    string setVar(string vardas) {var=vardas;}
-    string setPav(string pavarde) {pav=pavarde;}
-    string getVar() const {return var;}
-    string getPav() const {return pav;}
+    ~Asmuo() {}
+    virtual string setVar(string vardas) {var=vardas;}
+    virtual string setPav(string pavarde) {pav=pavarde;}
+    virtual string getVar() const {return var;}
+    virtual string getPav() const {return pav;}
 
 };
 
@@ -73,9 +74,9 @@ public:
     void sortClass(vector<Studentas>);
     bool operator>=(const Studentas& st) ;
     bool operator<(const Studentas& st) ;
-
+    friend std::ostream & operator<<(std::ostream &out, const Studentas &st);
 };
-std::ostream& operator<<(std::ostream& out, const Studentas& st);
+
 
 
 bool namecheck(const Studentas & s1, const Studentas & s2);

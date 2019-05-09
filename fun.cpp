@@ -101,7 +101,7 @@ bool Studentas::operator<(const Studentas& st) {
 
 std::ostream& operator<<(std::ostream& out, const Studentas& st)
 {
-    out << setw(st.getNvar()+9) << left << st.getVar() << setw(st.getNpav()+15) << left << st.getPav() << setw(20) << left << fixed << setprecision(3) << st.getGal() << endl;
+    out << setw(st.getNvar()+9) << left << st.var << setw(st.getNpav()+15) << left << st.pav << setw(20) << left << fixed << setprecision(3) << st.gal << endl;
    return out;
 }
 void generavimas()
