@@ -1,4 +1,4 @@
-# 2-uzd Duomenų apdorojimas
+# 3 užduotis
 
  ## Programos tikslas
  Pagal įvestus arba nuskaitytus iš failo duomenis (namų darbų ir egzamino rezultatus) programa paskaičiuoja studentų galutinį balą.
@@ -42,3 +42,11 @@ Compiler flags
 2 strategija Programa uztruko : 4.42716 sekundziu
 ```
 ### ![Pic](pic1.1.PNG)
+
+### [v1.2](https://github.com/karas245/3-uzd/releases/tag/v1.2)
+- Pridėti operatoriai
+### [v1.5](https://github.com/karas245/3-uzd/releases/tag/v1.5)
+- Sukurta klasių paveldimumas: dalį duomenų saugo nauja klasė Asmuo
+### [v2.0](https://github.com/karas245/3-uzd/releases/tag/v2.0)
+- Pridėta dokumentacija naudojant doxygen
+- Naudojami Unit Test'ai
