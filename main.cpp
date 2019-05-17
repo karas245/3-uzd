@@ -1,6 +1,33 @@
 #include "fun.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
-int main()
+
+struct StudentasTest : testing::Test {
+    Studentas* vardas;
+    Studentas* pavarde;
+    Studentas* egz;
+    StudentasTest() {
+        vardas = new Studentas;
+        pavarde = new Studentas;
+        egz = new Studentas;
+    }
+    ~StudentasTest() {
+        delete vardas;
+        delete pavarde;
+        delete egz;
+    }
+};
+TEST_F(StudentasTest, StudentoVardas) {
+    EXPECT_EQ("Vardas", vardas->getVar());
+}
+TEST_F(StudentasTest, StudentoPavarde) {
+    EXPECT_EQ("Pavarde", pavarde->getPav());
+}
+TEST_F(StudentasTest, StudentoEgzaminas) {
+    EXPECT_EQ(0, egz->getEgz());
+}
+int main(int argc, char** argv)
 {
     int ii;
     cout << "Ar norite vykdyti programa(1) ar konteineriu analize(2)? "; cin >> ii;
@@ -54,7 +81,8 @@ int main()
 
 
     }
-
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 
 
 

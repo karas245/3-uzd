@@ -37,8 +37,8 @@ protected:
 public:
     Asmuo() {var ="Vardas";pav ="Pavarde";}
     ~Asmuo() {}
-    virtual string setVar(string vardas) {var=vardas;}
-    virtual string setPav(string pavarde) {pav=pavarde;}
+    virtual string setVar(string vardas) { return var=vardas;}
+    virtual string setPav(string pavarde) {return pav=pavarde;}
     virtual string getVar() const {return var;}
     virtual string getPav() const {return pav;}
 

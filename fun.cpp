@@ -23,6 +23,7 @@ double Studentas::setGalV()
     }
     galv=0.4*(vid/sk) + 0.6*egz;
     v.clear();
+    return galv;
 
 }
 double Studentas::setGalM()
@@ -40,16 +41,19 @@ double Studentas::setGalM()
 
     galm=0.4*med + 0.6*egz;
     v.clear();
+    return galm;
 
 }
 double Studentas::setGal()
 {
     if(galv>0) gal=galv;
     else gal=galm;
+    return gal;
 }
 double Studentas::setGalutinis(int galutinis)
 {
     gal=galutinis;
+    return gal;
 }
 
 vector<int> Studentas::setV(vector<int> nd)
@@ -58,19 +62,22 @@ vector<int> Studentas::setV(vector<int> nd)
     {
         v.push_back(i);
     }
-    //v=nd;
+    return v;
 }
 int Studentas::setEgz(int e)
 {
     egz=e;
+    return egz;
 }
 int Studentas::setNvar(int didv)
 {
     nvar=didv;
+    return nvar;
 }
 int Studentas::setNpav(int didp)
 {
     npav=didp;
+    return npav;
 }
 bool namecheck(const Studentas & s1, const Studentas & s2)
 {
